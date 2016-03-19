@@ -1,0 +1,10 @@
+1.we should preprocess the data first then do the training. because this can help save some time when training.
+
+2.when get the test set, we found that there are some features not show up in the training set. We should just abandon this sorts of 
+feature. The reasons are listed below:
+
+For NaiveBayes : when a feature is not among the training feature, we calculate this conditional probability of this feature given 
+a certain class will be zero. There is no meaning when we sum the log likely hood.
+
+For logistic regression: after training on the training set, we get a set of weights, but none of them corresponding to this feature
+so we assuming the weight will be zero.
