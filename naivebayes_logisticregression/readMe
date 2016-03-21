@@ -8,3 +8,5 @@ a certain class will be zero. There is no meaning when we sum the log likely hoo
 
 For logistic regression: after training on the training set, we get a set of weights, but none of them corresponding to this feature
 so we assuming the weight will be zero.
+
+3.For each iteration: the logistic regression will update all the weight. 
