@@ -1,0 +1,116 @@
+Results
+======
+setLearningRate(0.001)Momentum(0.1)HiddenLayers(3)
+;
+Correctly Classified Instances         349               72.8601 %
+Incorrectly Classified Instances       130               27.1399 %
+Kappa statistic                          0     
+Mean absolute error                      0.3469
+Root mean squared error                  0.3885
+Relative absolute error                 88.0977 %
+Root relative squared error             87.353  %
+Total Number of Instances              479     
+Results
+======
+setLearningRate(0.002)Momentum(0.1)HiddenLayers(3)
+;
+Correctly Classified Instances         445               92.9019 %
+Incorrectly Classified Instances        34                7.0981 %
+Kappa statistic                          0.8124
+Mean absolute error                      0.2647
+Root mean squared error                  0.3061
+Relative absolute error                 67.2142 %
+Root relative squared error             68.8328 %
+Total Number of Instances              479     
+
+setLearningRate(0.003)Momentum(0.1)HiddenLayers(3);
+
+Correctly Classified Instances         457               95.4071 %
+Incorrectly Classified Instances        22                4.5929 %
+Kappa statistic                          0.8892
+Mean absolute error                      0.2159
+Root mean squared error                  0.2613
+Relative absolute error                 54.8386 %
+Root relative squared error             58.7611 %
+Total Number of Instances              479     
+
+Results
+======
+setLearningRate(0.0033)Momentum(0.1)HiddenLayers(3);
+
+Correctly Classified Instances         457               95.4071 %
+Incorrectly Classified Instances        22                4.5929 %
+Kappa statistic                          0.8892
+Mean absolute error                      0.2056
+Root mean squared error                  0.2535
+Relative absolute error                 52.2073 %
+Root relative squared error             56.9997 %
+Total Number of Instances              479  
+Results
+======
+setLearningRate(0.0034)Momentum(0.1)HiddenLayers(3);
+
+Correctly Classified Instances         456               95.1983 %
+Incorrectly Classified Instances        23                4.8017 %
+Kappa statistic                          0.885 
+Mean absolute error                      0.2024
+Root mean squared error                  0.2512
+Relative absolute error                 51.4049 %
+Root relative squared error             56.4829 %
+Total Number of Instances              479     
+
+
+Results
+======
+setLearningRate(0.0035`)Momentum(0.1)HiddenLayers(3)
+;
+Correctly Classified Instances         454               94.7808 %
+Incorrectly Classified Instances        25                5.2192 %
+Kappa statistic                          0.8755
+Mean absolute error                      0.1994
+Root mean squared error                  0.249 
+Relative absolute error                 50.6389 %
+Root relative squared error             56.002  %
+Total Number of Instances              479    
+
+
+Results
+======
+setLearningRate(0.004)Momentum(0.1)HiddenLayers(3);
+
+Correctly Classified Instances         451               94.1545 %
+Incorrectly Classified Instances        28                5.8455 %
+Kappa statistic                          0.8615
+Mean absolute error                      0.1865
+Root mean squared error                  0.2409
+Relative absolute error                 47.3639 %
+Root relative squared error             54.1786 %
+Total Number of Instances              479     
+
+
+Results
+======
+setLearningRate(0.005)Momentum(0.1)HiddenLayers(3)
+;
+Correctly Classified Instances         446               93.1106 %
+Incorrectly Classified Instances        33                6.8894 %
+Kappa statistic                          0.8386
+Mean absolute error                      0.1682
+Root mean squared error                  0.2321
+Relative absolute error                 42.7105 %
+Root relative squared error             52.1981 %
+Total Number of Instances              479     
+
+
+Results
+======
+setLearningRate(0.006)Momentum(0.1)HiddenLayers(3)
+;
+Correctly Classified Instances         444               92.6931 %
+Incorrectly Classified Instances        35                7.3069 %
+Kappa statistic                          0.8296
+Mean absolute error                      0.1555
+Root mean squared error                  0.2274
+Relative absolute error                 39.4911 %
+Root relative squared error             51.1375 %
+Total Number of Instances              479   
