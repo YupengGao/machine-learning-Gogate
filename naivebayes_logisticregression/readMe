@@ -10,3 +10,6 @@ For logistic regression: after training on the training set, we get a set of wei
 so we assuming the weight will be zero.
 
 3.For each iteration: the logistic regression will update all the weight. 
+
+4.the version2 of logistic regression is much faster than the first version because I setup the data matrix before training the data
+but in first version, I simply train the data while I build the matrix at the same time.
