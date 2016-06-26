@@ -1,0 +1,190 @@
+wesley	romulan	poetry	honor	tea	barclay	class
+1	1	0	0	0	0	0
+0	0	1	1	0	1	0
+0	1	0	1	1	0	0
+0	0	1	0	0	1	1
+0	1	0	0	0	0	0
+0	1	1	1	0	0	0
+0	1	1	0	0	0	0
+0	0	0	1	1	0	1
+0	0	0	0	0	0	0
+1	0	1	1	1	0	1
+0	1	1	0	1	0	1
+0	0	1	1	0	0	0
+1	0	1	1	0	0	0
+0	0	1	1	0	0	0
+1	0	0	0	0	0	1
+0	1	1	1	1	1	0
+1	0	0	0	1	0	0
+1	0	0	0	0	1	0
+1	0	0	1	0	1	0
+0	0	1	1	0	1	0
+1	1	1	0	0	1	0
+0	1	1	1	1	1	0
+0	0	1	1	0	1	1
+1	0	0	1	0	1	0
+0	0	1	0	0	0	1
+-----------------------------Training data----------------------------------
+
+
+import math
+
+from argparse import ArgumentParser
+
+DEBUG = False
+'''
+This is the only source file. The input files are expected to be whitespace delimited, with the attribute names (including "class") on the first line. The only class is a Node class used to build the tree and predict the class of an item based on its attributes. Our initial data is represented as a list of dictionaries, with each dictionary representing one example and being of the form {attribute1:value1, attribute2:value2, ...}. id3() is called recursively to build the decision tree and returns the root node. The accuracies of the tree for classifying the training data and test data are printed at the end.
+'''
+
+class Node(object):
+    def __init__(self, attr=None, classification=None):
+        self.attribute = attr #for internal nodes
+        self.classification = classification #for leaf nodes
+        self.pos_child = None
+        self.neg_child = None
+
+    def get_class(self, item):
+        if not self.classification is None:
+            return self.classification
+        else:
+            if item[self.attribute]:
+                return self.pos_child.get_class(item)
+            else:
+                return self.neg_child.get_class(item)
+
+def pprint_tree(root, indent=0):
+    if root.attribute:
+        print('\n'),
+        if indent: print('|  '*indent),
+        print root.attribute + ' = 0 : ',
+        pprint_tree(root.neg_child, indent+1)
+        if indent: print('|  '*indent),
+        print root.attribute + ' = 1 : ',
+        pprint_tree(root.pos_child, indent+1)
+    else:
+        print root.classification
+
+def entropy(data):
+    '''
+    Calculates entropy of a set of data, based on the number of positive and negative members.
+    :param data:
+    :return:
+    '''
+    npos, nneg = get_class_counts(data)
+    total = float(npos + nneg) #don't want flooring
+    pos = -(npos/total)*math.log(npos/total, 2) if npos > 0 else 0
+    neg = -(nneg/total)*math.log(nneg/total, 2) if nneg > 0 else 0
+    return pos + neg
+
+def information_gain(data, attribute):
+    '''
+    Calculates information gain when splitting on an attribute.
+    :param data:
+    :param attribute:
+    :return:
+    '''
+    pos_set, neg_set = split_on_attribute(data, attribute)
+    children_entropy = float(len(pos_set))/len(data)*entropy(pos_set) + float(len(neg_set))/len(data)*entropy(neg_set)
+    return entropy(data) - children_entropy
+
+def split_on_attribute(data, attribute):
+    '''
+    Separates data into two groups based on the value (0,1) of some attribute. Should theoretically work with both dictionaries and lists, depending if value is a key or index.
+    Returns tuple of positive and negative data sets.
+    '''
+    return ([row for row in data if row[attribute]], [row for row in data if not row[attribute]])
+
+def get_best_attribute(data, attributes):
+    '''
+    Determines which attribute split would give the best information gain.
+    :param data:
+    :param attributes:
+    :return:
+    '''
+    attr_to_ig = {}
+    for k in attributes:
+        if not k == 'class':
+            attr_to_ig[k] = information_gain(data, k)
+    return max(attr_to_ig.iterkeys(), key=lambda key: attr_to_ig[key])
+
+def get_class_counts(data):
+    '''
+    Utility method for counting the number of positives and negatives in an set.
+    :param data:
+    :return:
+    '''
+    npos = len([row for row in data if row['class']])
+    nneg = len(data) - npos
+    return npos, nneg
+
+def id3(data, target, attributes, total_data):
+    if all((row[target] for row in data)): #we've arrived at a pure positive node
+        return Node(classification=1)
+
+    if all((not row[target] for row in data)): #we've arrived at a pure negative node
+        return Node(classification=0)
+
+    if len(attributes) == 1: #we've run out of attributes to split on, but we aren't pure yet
+        npos, nneg = get_class_counts(data)
+
+        if npos == nneg or len(data) == 0: #if it's a tie or we have no examples left, use our overall data rather than local
+            npos, nneg = get_class_counts(total_data)
+
+        #now, use whichever class has a higher count (bias towards positive)
+        if npos >= nneg:
+            return Node(classification=1)
+        else:
+            return Node(classification=0)
+
+    #get our best information gain attribute and make the split
+    best = get_best_attribute(data, attributes)
+    root = Node(attr=best)
+    pos, neg = split_on_attribute(data, best)
+    new_attributes = [a for a in attributes if not a == best]
+
+    root.pos_child = id3(pos, target, new_attributes, total_data)
+    root.neg_child = id3(neg, target, new_attributes, total_data)
+
+    return root
+
+def get_data(fname):
+    '''
+    Just reads in our data into our data structure.
+    :param fname:
+    :return:
+    '''
+    with open(fname) as f:
+        strings = [s.split() for s in f.readlines()]
+        headers = strings[0]
+        data = []
+        for s in strings[1:]:
+            data.append({headers[i]:int(v) for i,v in enumerate(s)})
+    return headers, data
+
+if __name__ == '__main__':
+    argparse = ArgumentParser()
+    argparse.add_argument('train_file')
+    argparse.add_argument('test_file')
+    args = argparse.parse_args()
+
+    headers, train_data = get_data(args.train_file)
+    root = id3(train_data, 'class', headers, train_data) #modify this for less training
+    pprint_tree(root)
+
+    #test tree on our training data
+    _, train_data = get_data(args.train_file)
+    correct = 0
+    for row in train_data:
+        if root.get_class(row) == row['class']:
+            correct += 1
+    print 'Accuracy on training set ({num} instances): {percent:.2%}'.format(num=len(train_data), percent=float(correct)/len(train_data))
+
+    #test tree on our test data
+    _, test_data = get_data(args.test_file)
+    correct = 0
+    for row in test_data:
+        if root.get_class(row) == row['class']:
+            correct += 1
+    print 'Accuracy on training set ({num} instances): {percent:.2%}'.format(num=len(test_data), percent=float(correct)/len(test_data))
+
+
